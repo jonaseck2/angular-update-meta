@@ -66,6 +66,7 @@ angular.module('updateMeta', []);
 
         var selector = 'link' + buildQuery(scope, supportedAttributes);
 
+        // Watch only desired attributes
         supportedAttributes.filter(function(attribute) {
           return scope[attribute];
         }).forEach(function(attribute) {
