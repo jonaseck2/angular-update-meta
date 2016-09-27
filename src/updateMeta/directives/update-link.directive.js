@@ -14,7 +14,9 @@
         href: '@'
       },
       link: function(scope, iElem, iAttrs) {
-        var selector = 'link[rel="' + scope.rel + '"]';
+        var rel = '[rel="' + scope.rel + '"]';
+        var href= '[href="' + scope.href + '"]';
+        var selector = 'link' + rel + href;
 
         // watch the content parameter and set the changing value as needed
         scope.$watch('href', function (newValue, oldValue) {
