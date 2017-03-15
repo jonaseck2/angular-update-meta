@@ -16,6 +16,7 @@ angular.module('updateMeta', []);
 
     var supportedAttributes =
       [
+        'rel',
         'href',
         'charset',
         'crossorigin',
@@ -30,7 +31,7 @@ angular.module('updateMeta', []);
         'type'
       ];
 
-      var queryAttributes = ['id', 'rel'];
+      var queryAttributes = ['type', 'rel'];
 
       function buildAttributeFilter(scope, attribute) {
         return '[' + attribute + '="' + scope[attribute] + '"]';
@@ -38,7 +39,7 @@ angular.module('updateMeta', []);
 
       function buildQuery(scope, attributes) {
         return attributes.filter(function(attribute) {
-          return scope[attribute];
+          return scope[attribute] && queryAttributes.indexOf(attribute) != -1;
         }).map(function(attribute) {
           return buildAttributeFilter(scope, attribute);
         }).join('');
@@ -49,7 +50,6 @@ angular.module('updateMeta', []);
       scope: {
         rel: '@',
         href: '@',
-        id: '@?',
         charset: '@?',
         crossorigin: '@?',
         hreflang: '@?',
@@ -68,7 +68,7 @@ angular.module('updateMeta', []);
 
         // Watch only desired attributes
         supportedAttributes.filter(function(attribute) {
-          return scope[attribute];
+          return scope[attribute] && queryAttributes.indexOf(attribute) == -1;
         }).forEach(function(attribute) {
           scope.$watch(attribute, function(newValue, oldValue) {
             if (typeof newValue !== 'undefined') {

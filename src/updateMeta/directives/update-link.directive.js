@@ -9,6 +9,7 @@
 
     var supportedAttributes =
       [
+        'rel',
         'href',
         'charset',
         'crossorigin',
@@ -23,7 +24,7 @@
         'type'
       ];
 
-      var queryAttributes = ['id', 'rel'];
+      var queryAttributes = ['type', 'rel'];
 
       function buildAttributeFilter(scope, attribute) {
         return '[' + attribute + '="' + scope[attribute] + '"]';
@@ -31,7 +32,7 @@
 
       function buildQuery(scope, attributes) {
         return attributes.filter(function(attribute) {
-          return scope[attribute];
+          return scope[attribute] && queryAttributes.indexOf(attribute) != -1;
         }).map(function(attribute) {
           return buildAttributeFilter(scope, attribute);
         }).join('');
@@ -42,7 +43,6 @@
       scope: {
         rel: '@',
         href: '@',
-        id: '@?',
         charset: '@?',
         crossorigin: '@?',
         hreflang: '@?',
@@ -61,7 +61,7 @@
 
         // Watch only desired attributes
         supportedAttributes.filter(function(attribute) {
-          return scope[attribute];
+          return scope[attribute] && queryAttributes.indexOf(attribute) == -1;
         }).forEach(function(attribute) {
           scope.$watch(attribute, function(newValue, oldValue) {
             if (typeof newValue !== 'undefined') {
